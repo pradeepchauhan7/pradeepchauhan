@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.pradeep.picslider.dummy.DummyContent;
 import com.example.pradeep.picslider.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class ItemFragment extends Fragment {
     private int mColumnCount = 3;
 
     private OnListFragmentInteractionListener mListener;
+    private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,12 +57,18 @@ public class ItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
+            List<DummyItem> dummyItems = Utility.getInstance().ITEMS;
+
+            myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(dummyItems, mListener);
+            recyclerView.setAdapter(myItemRecyclerViewAdapter);
         }
         return view;
     }
 
-
+    public void updateAdapter() {
+        myItemRecyclerViewAdapter.notifyDataSetChanged();
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.pradeep.picslider.dummy.DummyContent;
 
+import java.util.List;
+
 import static android.R.attr.name;
 import static android.R.attr.password;
 import static android.R.attr.y;
@@ -22,16 +24,36 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 
     private int PICK_IMAGE_REQUEST = 1;
+    private ItemFragment itemFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        for (int i = 1; i <= 12; i++) {
+            addItem(createDummyItem(i));
+        }
+
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.activity_main, new ItemFragment());
+        itemFragment = new ItemFragment();
+        ft.replace(R.id.activity_main, itemFragment);
         ft.commit();
+    }
+
+
+
+
+    private void addItem(DummyContent.DummyItem item) {
+        List<DummyContent.DummyItem> dummyItemList = Utility.getInstance().ITEMS;
+        dummyItemList.add(item);
+    }
+
+    private static DummyContent.DummyItem createDummyItem(int position) {
+        return new DummyContent.DummyItem(String.valueOf(position), "","");
     }
 
 
@@ -69,15 +91,18 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 0 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        for(int i=0;i<11;i++) {
+            if (requestCode == i && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            Uri uri = data.getData();
+                Uri uri = data.getData();
 
-            DummyContent.DummyItem dummyItem = DummyContent.ITEMS.get(0);
-            dummyItem.content = uri.toString();
+                DummyContent.DummyItem dummyItem = DummyContent.ITEMS.get(i);
+                dummyItem.content = uri.toString();
+
+                itemFragment.updateAdapter();
 
 
-
+            }
         }
     }
 

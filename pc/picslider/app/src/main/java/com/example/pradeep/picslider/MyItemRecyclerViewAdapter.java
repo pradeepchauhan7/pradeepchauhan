@@ -1,5 +1,6 @@
 package com.example.pradeep.picslider;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,14 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
+
+        String urlStr = mValues.get(position).content;
+
+        if(urlStr != null && !urlStr.equalsIgnoreCase("")) {
+
+            holder.image.setImageURI(Uri.parse(urlStr));
+        }
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
