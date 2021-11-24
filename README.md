@@ -1,2 +1,2 @@
 # pradeepchauhan
-My name is pradeep chauhan and I am a student persuing Master Of Computer Application.
+My name is pradeep chauhan and I am a Software Engineer and works on technologies related to Data.
